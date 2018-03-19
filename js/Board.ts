@@ -117,8 +117,8 @@ class Board {
 
 
             let topLeftField = {
-                x: Math.floor((shape.position.x - this._margin) / this._width * this._segmentsNum),
-                y: Math.floor((shape.position.y - this._margin) / this._width * this._segmentsNum)
+                x: Math.floor((shape.position.x - this._margin - shape.halfWidth) / this._width * this._segmentsNum),
+                y: Math.floor((shape.position.y - this._margin ) / this._width * this._segmentsNum)
             }
             console.log(shape.toString());
             for (let y = 0; y < shape.pattern.length; y++) {
@@ -172,6 +172,45 @@ class Board {
     }
 
     protected _clearCompleteLines(): void {
+        // look for lines
+        for (let y = 0; y < this._matrix.length; y++) {
+            let counter = 0;
+            for (let x = 0; x < this._matrix[y].length; x++) {
+                if(this._matrix[y][x] == FieldStates.OCCUPIED){
+                    counter++;
+                }
+            }
+            if (counter == this._matrix[0].length) {
+                console.log(counter);
+                for (let x = 0; x < this._matrix[y].length; x++) {
+                    if(this._matrix[y][x] == FieldStates.OCCUPIED){
+                        this._matrix[y][x] = FieldStates.FREE;
+                    }
+                }
+                this._game.score(counter);
+            }
+            
+        }
+        // look for columns
+        for (let y = 0; y < this._matrix.length; y++) {
+            let counter = 0;
+            for (let x = 0; x < this._matrix[y].length; x++) {
+                if(this._matrix[x][y] == FieldStates.OCCUPIED){
+                    counter++;
+                }
+            }
+            if (counter == this._matrix[0].length) {
+                console.log(counter);
+                for (let x = 0; x < this._matrix[y].length; x++) {
+                    if(this._matrix[x][y] == FieldStates.OCCUPIED){
+                        this._matrix[x][y] = FieldStates.FREE;
+                    }
+                }
+                this._game.score(counter);
+            }
+            
+        }
+
         console.log('clear');
     }
 

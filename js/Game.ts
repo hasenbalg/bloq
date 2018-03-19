@@ -96,7 +96,9 @@ class Game {
         this._currentShape = new Shape(this, Shape.EMPTY);
     }
 
-    
+    score(points:number){
+        console.log(`add ${points}`);
+    }
 
     get width():number{
         return this._canvas.width;
