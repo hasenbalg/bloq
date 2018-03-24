@@ -28,6 +28,14 @@ class Shop{
         }
     }
 
+    get availableShapes():Shape[]{
+        return this._availableShapes;
+    }
+
+    set availableShapes(availableShapes:Shape[]){
+        throw new TypeError('Implemnet me');
+    }
+
     protected initShapes(){
         this._possibleShapes[0] = new Shape(this._game, Shape.EMPTY);
         this._possibleShapes[1] = new Shape(this._game, Shape.L );
@@ -35,6 +43,7 @@ class Shop{
         this._possibleShapes[3] = new Shape(this._game, Shape.QUAD);
         this._possibleShapes[4] = new Shape(this._game, Shape.BAR3HORIZONTAL);
         this._possibleShapes[5] = new Shape(this._game, Shape.BAR3VERTICAL);
+        this._possibleShapes[6] = new Shape(this._game, Shape.J );
     }
 
     protected fillShop(){

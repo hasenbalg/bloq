@@ -2,7 +2,7 @@
 ///<reference path="Settings.ts" />
 
 enum FieldStates {
-    FREE, RESERVED, OCCUPIED
+    FREE, RESERVED, OCCUPIED, SHAPEOKHERE
 }
 
 class Board {
@@ -35,7 +35,7 @@ class Board {
         //     'white'
         // );
 
-        this._game.drawRect({x:this._margin, y:this._margin}, this._width, this._width, Settings.BOARDCOLOR);
+        this._game.drawRect({ x: this._margin, y: this._margin }, this._width, this._width, Settings.BOARDCOLOR);
 
         for (let y = 0; y < this._matrix.length; y++) {
             for (let x = 0; x < this._matrix[y].length; x++) {
@@ -120,7 +120,7 @@ class Board {
 
             let topLeftField = {
                 x: Math.floor((shape.position.x - this._margin - shape.halfWidth) / this._width * this._segmentsNum),
-                y: Math.floor((shape.position.y - this._margin ) / this._width * this._segmentsNum)
+                y: Math.floor((shape.position.y - this._margin) / this._width * this._segmentsNum)
             }
             console.log(shape.toString());
             for (let y = 0; y < shape.pattern.length; y++) {
@@ -148,7 +148,7 @@ class Board {
     }
 
     dropShape(shape: Shape): void {
-        console.log(this.toString());
+        //console.log(this.toString());
         // generate a new board with the old occupations
         let newMatrix = this._getEmptyMatrix();
         let thereWasChange = false;
@@ -162,10 +162,10 @@ class Board {
                 newMatrix[y][x] = this._matrix[y][x];
             }
         }
-        console.log(`matrix did change ${thereWasChange}`);
+        //console.log(`matrix did change ${thereWasChange}`);
         if (!thereWasChange) {//matrix did not change
             shape.invalidDrop = true;
-        }else{
+        } else {
             //drop is successful
             this._matrix = newMatrix;
             this._clearCompleteLines();
@@ -179,7 +179,7 @@ class Board {
         for (let y = 0; y < this._matrix.length; y++) {
             let counter = 0;
             for (let x = 0; x < this._matrix[y].length; x++) {
-                if(this._matrix[y][x] == FieldStates.OCCUPIED){
+                if (this._matrix[y][x] == FieldStates.OCCUPIED) {
                     counter++;
                 }
             }
@@ -187,19 +187,19 @@ class Board {
             if (counter == this._matrix[0].length) {
                 console.log(counter);
                 for (let x = 0; x < this._matrix[y].length; x++) {
-                    if(this._matrix[y][x] == FieldStates.OCCUPIED){
+                    if (this._matrix[y][x] == FieldStates.OCCUPIED) {
                         this._matrix[y][x] = FieldStates.FREE;
                     }
                 }
                 Player.getInstance().score += counter;
             }
-            
+
         }
         // look for columns
         for (let y = 0; y < this._matrix.length; y++) {
             let counter = 0;
             for (let x = 0; x < this._matrix[y].length; x++) {
-                if(this._matrix[x][y] == FieldStates.OCCUPIED){
+                if (this._matrix[x][y] == FieldStates.OCCUPIED) {
                     counter++;
                 }
             }
@@ -207,16 +207,46 @@ class Board {
             if (counter == this._matrix[0].length) {
                 console.log(counter);
                 for (let x = 0; x < this._matrix[y].length; x++) {
-                    if(this._matrix[x][y] == FieldStates.OCCUPIED){
+                    if (this._matrix[x][y] == FieldStates.OCCUPIED) {
                         this._matrix[x][y] = FieldStates.FREE;
                     }
                 }
                 Player.getInstance().score += counter;
             }
-            
+
         }
 
         console.log('clear');
+    }
+
+    findPossiblePositions(shape: Shape): number[][] {
+        let possiblePositions = this._getEmptyMatrix();
+
+        for (let y = 0; y < this._matrix.length; y++) {
+            for (let x = 0; x < this._matrix[y].length; x++) {
+                let shapeIsFitting = true;
+                let sy = 0;
+                let sx = 0;
+                for (let sy = 0; sy < shape.pattern.length; sy++) {
+                    for (let sx = 0; sx < shape.pattern[sy].length; sx++) {
+                        if (
+                            y + sy > this._segmentsNum - 1
+                            || x + sx > this._segmentsNum - 1
+                            || (
+                                shape.pattern[sy][sx] == 1
+                            && this._matrix[y + sy][x + sx] == FieldStates.OCCUPIED
+                            )
+                        ) {
+                            shapeIsFitting = false;
+                        }
+                    }
+                }
+                if (shapeIsFitting) {
+                    possiblePositions[y][x] = FieldStates.SHAPEOKHERE;
+                }
+            }
+        }
+        return possiblePositions;
     }
 
     getSegmentEdgeLength(): number {
@@ -225,8 +255,8 @@ class Board {
 
     public toString(): string {
         let output = '';
-        for(let y of this._matrix){
-            for(let x of y){
+        for (let y of this._matrix) {
+            for (let x of y) {
                 output += x;
             }
             output += '\n';

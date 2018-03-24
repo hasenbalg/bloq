@@ -8,6 +8,9 @@ class  Settings{
 
     public static NUMAVAILABLESHAPES = 3;
 
+    public static SHAPECOLORINACTIVE = '#d3d3d3'
+    public static SHAPECOLORACTIVE = '#fff'
+
     public static FLYHOMESPEED = .3;
 
     public static COOKIENAME = 'Laenderspiel'

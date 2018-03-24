@@ -16,7 +16,8 @@ class Game {
 
     private _currentShape:Shape;
 
-    private _debug:boolean;
+    protected _debug:boolean;
+    protected _isOver:boolean;
     
 
     constructor(canvasId: string) {
@@ -26,6 +27,7 @@ class Game {
         this._width = this._canvas.width;
         this._height = this._canvas.height;
         this._debug = false;
+        this._isOver = false;
         this.resize();
         this._scoreBoard = new ScoreBoard(this._context, {x:this._width/2, y: 50});
 
@@ -34,6 +36,8 @@ class Game {
         this._canvas.addEventListener('touchstart', function(e){
             //pickup shape
             self._shop.touchStart({x:e.touches[0].clientX, y:e.touches[0].clientY});
+            
+
             //add  touch listeners
             this.addEventListener('touchmove',function(e:TouchEvent){
                 self._currentShape.position = {x:e.touches[0].clientX, y:e.touches[0].clientY};
@@ -100,6 +104,36 @@ class Game {
     resetCurrentShape(deleteShape:boolean):void{
         if(deleteShape){
             this._shop.deleteShape(this._currentShape);
+            //check if the rest shapes still fit
+            for(let shape of this._shop.availableShapes){
+                let possiblePositions: number[][] = this._board.findPossiblePositions(shape);
+                let positionsCounter = 0;
+                for(let row of possiblePositions){
+                    for(let field of row){
+                        if(field == FieldStates.SHAPEOKHERE){
+                            positionsCounter++;
+                        }
+                    }
+                }
+                if(positionsCounter == 0){
+                    shape.isActive = false;
+                }else{
+                    shape.isActive = true;
+                }
+            }
+
+            //check if there are still active shapes available
+            let counterActiveShapesAvailable = 0;
+            for(let shape of this._shop.availableShapes){
+                if(shape.isActive){
+                    counterActiveShapesAvailable++;
+                }
+            }
+            if(counterActiveShapesAvailable == 0){
+                this._isOver = true;
+                console.log('GAME OVER');
+            }
+
         }
         this._currentShape = new Shape(this, Shape.EMPTY);
     }
@@ -155,6 +189,7 @@ window.onkeypress = function(evt) {
     if(charStr = 'd'){
         game.debug = !game.debug;
     }
+    
 }
 
 

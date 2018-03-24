@@ -9,6 +9,12 @@ class Shape {
         [1, 1]
     ];
 
+    public static J = [
+        [0, 1],
+        [0, 1],
+        [1, 1]
+    ];
+
     public static TRI = [
 
         [0, 1],
@@ -41,7 +47,8 @@ class Shape {
     protected _invalidDrop = false;
     protected _initialPosition: { x: number, y: number };
 
-
+    protected _color:string;
+    protected _isActive:boolean;
 
     constructor(game: Game, pattern: number[][] = [[1, 1, 1]], position: { x: number, y: number } = { x: 0, y: 0 }) {
         this._game = game;
@@ -51,6 +58,8 @@ class Shape {
         this._initialPosition = this._position;
         this._halfWidth = this.getLongestRow() * this._segmEdgeLength / 2;
         this._halfHeight = this._pattern.length * this._segmEdgeLength * .5;
+        this._color = Settings.SHAPECOLORACTIVE;
+        this._isActive = true;
         // console.log(`crated Shape  width:${this.getLongestRow()} height:${this._pattern.length}, edgelength: ${this._segmEdgeLength}`);
         // console.log(`halfHeight:${this._halfHeight}`);
     }
@@ -80,7 +89,7 @@ class Shape {
                         },
                         this._segmEdgeLength,
                         this.segmEdgeLength,
-                        Settings.OCCUPIEDFIELDCOLOR
+                        this._color
                     );
                 }
 
@@ -101,6 +110,14 @@ class Shape {
                 this._position = this._initialPosition;
                 this._invalidDrop = false;
             }
+        }
+
+        if(this._isActive){
+            this._color = Settings.SHAPECOLORACTIVE;
+        }else{
+            this._color = Settings.SHAPECOLORINACTIVE;
+            //dont move
+            this._position = this._initialPosition;
         }
 
     }
@@ -148,6 +165,7 @@ class Shape {
     set position(position: { x: number, y: number }) {
         // position.x += this._halfWidth;
         // position.y += this._halfHeight;
+        position.y -= 100;
         this._position = position;
     }
 
@@ -157,6 +175,14 @@ class Shape {
 
     set invalidDrop(invalidDrop: boolean) {
         this._invalidDrop = invalidDrop;
+    }
+
+    get isActive(): boolean {
+        return this._isActive;
+    }
+
+    set isActive(isActive: boolean) {
+        this._isActive = isActive;
     }
 
     protected getLongestRow(): number {
