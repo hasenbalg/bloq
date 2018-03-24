@@ -35,6 +35,8 @@ class Board {
         //     'white'
         // );
 
+        this._game.drawRect({x:this._margin, y:this._margin}, this._width, this._width, Settings.BOARDCOLOR);
+
         for (let y = 0; y < this._matrix.length; y++) {
             for (let x = 0; x < this._matrix[y].length; x++) {
                 switch (this._matrix[y][x]) {
@@ -167,6 +169,7 @@ class Board {
             //drop is successful
             this._matrix = newMatrix;
             this._clearCompleteLines();
+            Player.getInstance().score += shape.getPoints();
         }
         this._game.resetCurrentShape(thereWasChange);
     }
@@ -180,6 +183,7 @@ class Board {
                     counter++;
                 }
             }
+            //clear line
             if (counter == this._matrix[0].length) {
                 console.log(counter);
                 for (let x = 0; x < this._matrix[y].length; x++) {
@@ -187,7 +191,7 @@ class Board {
                         this._matrix[y][x] = FieldStates.FREE;
                     }
                 }
-                this._game.score(counter);
+                Player.getInstance().score += counter;
             }
             
         }
@@ -199,6 +203,7 @@ class Board {
                     counter++;
                 }
             }
+            //clear column
             if (counter == this._matrix[0].length) {
                 console.log(counter);
                 for (let x = 0; x < this._matrix[y].length; x++) {
@@ -206,7 +211,7 @@ class Board {
                         this._matrix[x][y] = FieldStates.FREE;
                     }
                 }
-                this._game.score(counter);
+                Player.getInstance().score += counter;
             }
             
         }

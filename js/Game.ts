@@ -2,6 +2,7 @@
 ///<reference path="Board.ts" />
 ///<reference path="Shop.ts" />
 ///<reference path="Shape.ts" />
+///<reference path="ScoreBoard.ts" />
 
 
 class Game {
@@ -11,8 +12,11 @@ class Game {
     private _height: number;
     private _board:Board;
     private _shop:Shop;
+    protected _scoreBoard:ScoreBoard;
 
     private _currentShape:Shape;
+
+    private _debug:boolean;
     
 
     constructor(canvasId: string) {
@@ -21,7 +25,9 @@ class Game {
         this._context = <CanvasRenderingContext2D>this._canvas.getContext('2d');
         this._width = this._canvas.width;
         this._height = this._canvas.height;
+        this._debug = false;
         this.resize();
+        this._scoreBoard = new ScoreBoard(this._context, {x:this._width/2, y: 50});
 
         this._board = new Board(this);
         let self = this;
@@ -58,12 +64,14 @@ class Game {
         this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
         this._board.render();
         this._shop.render();
+        this._scoreBoard.render();
     }
 
     update(): void {
         // console.log('update');
         this._board.update();
         this._shop.update();
+        this._scoreBoard.update();
     }
 
     drawRect(pos: { x: number, y: number }, width: number, height: number, color: string): void {
@@ -72,7 +80,7 @@ class Game {
         this._context.fillStyle = color;
         this._context.fill();
         this._context.lineWidth = 1;
-        this._context.strokeStyle = 'black';
+        this._context.strokeStyle = color;
         this._context.stroke();
     }
 
@@ -96,10 +104,6 @@ class Game {
         this._currentShape = new Shape(this, Shape.EMPTY);
     }
 
-    score(points:number){
-        console.log(`add ${points}`);
-    }
-
     get width():number{
         return this._canvas.width;
     }
@@ -120,6 +124,14 @@ class Game {
         return this._currentShape;
     }
 
+    set debug(debug:boolean){
+        this._debug = debug;
+    }
+
+    get debug():boolean{
+        return this._debug;
+    }
+
     getSegmentEdgeLength():number{
         return this._board.getSegmentEdgeLength();
     }
@@ -135,6 +147,16 @@ window.onload = function () {
 window.onresize = function () {
     game.resize();
 }
+
+window.onkeypress = function(evt) {
+    evt = evt || window.event;
+    var charCode = evt.keyCode || evt.which;
+    var charStr = String.fromCharCode(charCode);
+    if(charStr = 'd'){
+        game.debug = !game.debug;
+    }
+}
+
 
 function loop() {
     game.update();

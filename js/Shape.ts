@@ -41,6 +41,8 @@ class Shape {
     protected _invalidDrop = false;
     protected _initialPosition: { x: number, y: number };
 
+
+
     constructor(game: Game, pattern: number[][] = [[1, 1, 1]], position: { x: number, y: number } = { x: 0, y: 0 }) {
         this._game = game;
         this._pattern = pattern;
@@ -54,16 +56,19 @@ class Shape {
     }
 
     render() {
-        var radius = this.halfWidth;
-        this._game.context.beginPath();
-        this._game.context.arc(this._position.x,
-            this._position.y,
-            radius, 0, 2 * Math.PI, false);
-        this._game.context.fillStyle = 'rgba(79, 140, 64, .3)';
-        this._game.context.fill();
-        this._game.context.lineWidth = 5;
-        this._game.context.strokeStyle = '#003300';
-        this._game.context.stroke();
+        if (this._game.debug) {
+            var radius = this.halfWidth;
+            this._game.context.beginPath();
+            this._game.context.arc(this._position.x,
+                this._position.y,
+                radius, 0, 2 * Math.PI, false);
+            this._game.context.fillStyle = 'rgba(79, 140, 64, .3)';
+            this._game.context.fill();
+            this._game.context.lineWidth = 5;
+            this._game.context.strokeStyle = '#003300';
+            this._game.context.stroke();
+        }
+
 
         for (let y = 0; y < this._pattern.length; y++) {
             for (let x = 0; x < this._pattern[y].length; x++) {
@@ -162,6 +167,18 @@ class Shape {
             }
         }
         return longestRowCounter;
+    }
+
+    getPoints(): number {
+        let counter = 0;
+        for (let y of this._pattern) {
+            for (let x of y) {
+                if (x != 0) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 
     static getClone(orig: Shape, position: { x: number, y: number }): Shape {
