@@ -3,9 +3,12 @@
 ///<reference path="Shop.ts" />
 ///<reference path="Shape.ts" />
 ///<reference path="ScoreBoard.ts" />
+///<reference path="IScreen.ts" />
+///<reference path="GameOverScreen.ts" />
+///<reference path="Boot.ts" />
 
 
-class Game {
+class Game implements IScreen{
     private _canvas: HTMLCanvasElement;
     private _context: CanvasRenderingContext2D;
     private _width: number;
@@ -20,8 +23,8 @@ class Game {
     protected _isOver:boolean;
     
 
-    constructor(canvasId: string) {
-        this._canvas = <HTMLCanvasElement>document.getElementById(canvasId);
+    constructor(canvas: HTMLCanvasElement) {
+        this._canvas = canvas;
         this._canvas.style.backgroundColor = Settings.BACKGROUNDCOLOR;
         this._context = <CanvasRenderingContext2D>this._canvas.getContext('2d');
         this._width = this._canvas.width;
@@ -129,9 +132,11 @@ class Game {
                     counterActiveShapesAvailable++;
                 }
             }
-            if(counterActiveShapesAvailable == 0){
+            if(counterActiveShapesAvailable == 0 && this._shop.availableShapes.length > 0){
                 this._isOver = true;
                 console.log('GAME OVER');
+                swapScreen(new GameOverScreen(cloneCanvas(this._canvas)));
+                //this = undefined;
             }
 
         }
@@ -166,35 +171,16 @@ class Game {
         return this._debug;
     }
 
+    set canvas(canvas:HTMLCanvasElement){
+        throw new TypeError('Implement me');
+    }
+
+    get canvas():HTMLCanvasElement{
+        return this._canvas;
+    }
+
     getSegmentEdgeLength():number{
         return this._board.getSegmentEdgeLength();
     }
 }
 
-
-let game: Game;
-window.onload = function () {
-    game = new Game('game');
-    loop();
-}
-
-window.onresize = function () {
-    game.resize();
-}
-
-window.onkeypress = function(evt) {
-    evt = evt || window.event;
-    var charCode = evt.keyCode || evt.which;
-    var charStr = String.fromCharCode(charCode);
-    if(charStr = 'd'){
-        game.debug = !game.debug;
-    }
-    
-}
-
-
-function loop() {
-    game.update();
-    game.render();
-    window.requestAnimationFrame(loop);
-}

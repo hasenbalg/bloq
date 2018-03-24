@@ -52,7 +52,7 @@ class Shop{
         this._availableShapes = new Array();
         for(let i = 0; i < Settings.NUMAVAILABLESHAPES; i++ ){
             let random = Math.floor((Math.random() * (this._possibleShapes.length - 1) + 1 ));
-            console.log(this._leftOffset);
+            //console.log(this._leftOffset);
             this._availableShapes[i] = Shape.getClone(
                 this._possibleShapes[random],
                  {x: (this._game.width/Settings.NUMAVAILABLESHAPES * i) + this._leftOffset,

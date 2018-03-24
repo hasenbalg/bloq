@@ -14,4 +14,6 @@ class  Settings{
     public static FLYHOMESPEED = .3;
 
     public static COOKIENAME = 'Laenderspiel'
+
+    public static GAMEOVERCOLOR = 'rgba(0,0,0,0.2)';
 }
