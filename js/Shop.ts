@@ -59,6 +59,7 @@ class Shop{
                 y:(this._game.height - (this._game.height - this._game.width)/2)}
                 );
         }
+        this._game.checkGameOver();
     }
 
     touchStart(fingerPos:{x:number, y:number}):void{

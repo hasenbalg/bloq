@@ -23,7 +23,9 @@ class GameOverScreen implements IScreen {
             swapScreen(new Game(cloneCanvas(this)));
             //self = null;
         });
-        Player.getInstance().save();
+        let player = Player.getInstance();
+        player.save();
+        player.score = 0
     }
 
     update() {

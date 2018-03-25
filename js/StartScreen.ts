@@ -16,9 +16,14 @@ class StartScreen implements IScreen {
         this._height = this._canvas.height;
         this._debug = false;
 
+
+        let player = Player.getInstance();
+        player.read();
+
         let self = this;
         this._canvas.addEventListener('touchstart', function (e) {
             this.removeEventListener('touchstart', function () { });
+
             swapScreen(new Game(cloneCanvas(this)));
             //self = undefined;
         });

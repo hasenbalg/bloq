@@ -38,23 +38,27 @@ class Game implements IScreen{
         let self = this;
         this._canvas.addEventListener('touchstart', function(e){
             //pickup shape
+            e.preventDefault();
             self._shop.touchStart({x:e.touches[0].clientX, y:e.touches[0].clientY});
             
 
             //add  touch listeners
             this.addEventListener('touchmove',function(e:TouchEvent){
+                e.preventDefault();
                 self._currentShape.position = {x:e.touches[0].clientX, y:e.touches[0].clientY};
                 self._board.reserve(self.currentShape);
             });
             this.addEventListener('touchend',function(e){
                 // console.log('touchend');
                 //drop shape
+                e.preventDefault();
                 self._board.dropShape(self.currentShape);
                 this.removeEventListener('touchmove',function(){});
                 this.removeEventListener('touchend',function(){});
                 this.removeEventListener('touchcancel',function(){});
             });
             this.addEventListener('touchcancel',function(e){
+                e.preventDefault();
                 console.log('touchcancel');
                 this.removeEventListener('touchmove',function(){});
                 this.removeEventListener('touchend',function(){});
@@ -108,39 +112,43 @@ class Game implements IScreen{
         if(deleteShape){
             this._shop.deleteShape(this._currentShape);
             //check if the rest shapes still fit
-            for(let shape of this._shop.availableShapes){
-                let possiblePositions: number[][] = this._board.findPossiblePositions(shape);
-                let positionsCounter = 0;
-                for(let row of possiblePositions){
-                    for(let field of row){
-                        if(field == FieldStates.SHAPEOKHERE){
-                            positionsCounter++;
-                        }
-                    }
-                }
-                if(positionsCounter == 0){
-                    shape.isActive = false;
-                }else{
-                    shape.isActive = true;
-                }
-            }
-
-            //check if there are still active shapes available
-            let counterActiveShapesAvailable = 0;
-            for(let shape of this._shop.availableShapes){
-                if(shape.isActive){
-                    counterActiveShapesAvailable++;
-                }
-            }
-            if(counterActiveShapesAvailable == 0 && this._shop.availableShapes.length > 0){
-                this._isOver = true;
-                console.log('GAME OVER');
-                swapScreen(new GameOverScreen(cloneCanvas(this._canvas)));
-                //this = undefined;
-            }
+            this.checkGameOver();
 
         }
         this._currentShape = new Shape(this, Shape.EMPTY);
+    }
+
+    checkGameOver(){
+        for(let shape of this._shop.availableShapes){
+            let possiblePositions: number[][] = this._board.findPossiblePositions(shape);
+            let positionsCounter = 0;
+            for(let row of possiblePositions){
+                for(let field of row){
+                    if(field == FieldStates.SHAPEOKHERE){
+                        positionsCounter++;
+                    }
+                }
+            }
+            if(positionsCounter == 0){
+                shape.isActive = false;
+            }else{
+                shape.isActive = true;
+            }
+        }
+
+        //check if there are still active shapes available
+        let counterActiveShapesAvailable = 0;
+        for(let shape of this._shop.availableShapes){
+            if(shape.isActive){
+                counterActiveShapesAvailable++;
+            }
+        }
+        if(counterActiveShapesAvailable == 0 && this._shop.availableShapes.length > 0){
+            this._isOver = true;
+            console.log('GAME OVER');
+            swapScreen(new GameOverScreen(cloneCanvas(this._canvas)));
+            //this = undefined;
+        }
     }
 
     get width():number{

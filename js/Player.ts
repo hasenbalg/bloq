@@ -29,8 +29,8 @@ class Player {
     }
 
     set score(points: number) {
-        if(this._score > this._highscore){
-            this._score = this._highscore;
+        if(points > this._highscore){
+            this._highscore = points;
         }
         this._score = points;
     }
@@ -57,19 +57,23 @@ class Player {
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
             expires = "; expires=" + date.toUTCString();
         }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        document.cookie = name + "=" + value + expires + "; path=/";
     }
 
-    read():number {
+    read():void {console.log('READING');
         let name = Settings.COOKIENAME;
         let nameEQ = name + "=";
         var ca = document.cookie.split(';');
         for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return Number(c.substring(nameEQ.length, c.length));
+            while (c.charAt(0) == ' '){
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) == 0){
+                this._highscore = Number(c.substring(nameEQ.length, c.length));
+            }
         }
-        return 0;
+        this._highscore =  0;
     }
 
     delete(){
