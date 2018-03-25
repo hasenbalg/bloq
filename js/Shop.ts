@@ -49,6 +49,7 @@ class Shop{
         this._possibleShapes[7] = new Shape(this._game, Shape.FLASH );
         this._possibleShapes[8] = new Shape(this._game, Shape.Z );
         this._possibleShapes[9] = new Shape(this._game, Shape.G );
+        this._possibleShapes[10] = new Shape(this._game, Shape.DOT );
     }
 
     protected fillShop(){

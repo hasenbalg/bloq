@@ -51,6 +51,9 @@ class Shape {
         [1, 1],
         [0, 1]
     ];
+    public static DOT = [
+        [1]
+    ];
 
     private _game: Game;
     private _pattern: number[][];
