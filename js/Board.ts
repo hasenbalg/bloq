@@ -35,7 +35,7 @@ class Board {
         //     'white'
         // );
 
-        this._game.drawRect({ x: this._margin, y: this._margin }, this._width, this._width, Settings.BOARDCOLOR);
+        this._game.drawFrame({ x: this._margin, y: this._margin }, this._width, this._width, Settings.BOARDCOLOR);
 
         for (let y = 0; y < this._matrix.length; y++) {
             for (let x = 0; x < this._matrix[y].length; x++) {

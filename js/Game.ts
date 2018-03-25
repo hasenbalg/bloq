@@ -27,12 +27,13 @@ class Game implements IScreen{
         this._canvas = canvas;
         this._canvas.style.backgroundColor = Settings.BACKGROUNDCOLOR;
         this._context = <CanvasRenderingContext2D>this._canvas.getContext('2d');
+        this._context.imageSmoothingEnabled = true;
         this._width = this._canvas.width;
         this._height = this._canvas.height;
         this._debug = false;
         this._isOver = false;
         this.resize();
-        this._scoreBoard = new ScoreBoard(this._context, {x:this._width/2, y: 50});
+        this._scoreBoard = new ScoreBoard(this._context, {x:this._width/2, y: this._height - 30});
 
         this._board = new Board(this);
         let self = this;
@@ -87,9 +88,17 @@ class Game implements IScreen{
 
     drawRect(pos: { x: number, y: number }, width: number, height: number, color: string): void {
         this._context.beginPath();
-        this._context.rect(pos.x, pos.y, width, height);
+        this._context.rect(pos.x, pos.y, width - .5, height - .5);
         this._context.fillStyle = color;
         this._context.fill();
+        this._context.lineWidth = 1;
+        this._context.strokeStyle = color;
+        //this._context.stroke();
+    }
+
+    drawFrame(pos: { x: number, y: number }, width: number, height: number, color: string): void {
+        this._context.beginPath();
+        this._context.rect(pos.x, pos.y, width, height);
         this._context.lineWidth = 1;
         this._context.strokeStyle = color;
         this._context.stroke();
@@ -105,9 +114,7 @@ class Game implements IScreen{
         this._height = this._canvas.height;
     }
 
-    // updateMousePos(pos:{x:number, y:number}):void{
-    //     this._board.updateMousePos(pos);
-    // }
+   
     resetCurrentShape(deleteShape:boolean):void{
         if(deleteShape){
             this._shop.deleteShape(this._currentShape);

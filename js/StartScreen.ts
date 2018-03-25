@@ -59,7 +59,7 @@ class StartScreen implements IScreen {
                 y++;
                 
             }
-            console.log(y, x);
+            //console.log(y, x);
         }
 
     }
