@@ -119,9 +119,35 @@ class Board {
 
 
             let topLeftField = {
-                x: Math.floor((shape.position.x - this._margin - shape.halfWidth) / this._width * this._segmentsNum),
-                y: Math.floor((shape.position.y - this._margin) / this._width * this._segmentsNum)
+                x: 0,
+                y: 0
             }
+
+
+            //get possible positions
+            let possiblePositions = this.findPossiblePositions(shape);
+            let shortestDistance = Number.MAX_VALUE;
+            for (let y = 0; y < possiblePositions.length; y++) {
+                for (let x = 0; x < possiblePositions[y].length; x++) {
+                    if (possiblePositions[y][x] == FieldStates.SHAPEOKHERE) {
+                        let currentDistance = this._getDistance({ x: x * this._segmEdgeLength + this._margin, y: y * this._segmEdgeLength + this._margin }, shape.position);
+                        if (currentDistance < shortestDistance) {
+                            shortestDistance = currentDistance;
+                            console.log(shortestDistance);
+                            topLeftField = { x: x, y: y };
+                        }
+                    }
+                }
+            }
+
+            if(shortestDistance > Settings.SNAPDISTANCE){
+                return;
+            }
+
+
+
+
+
             console.log(shape.toString());
             for (let y = 0; y < shape.pattern.length; y++) {
                 for (let x = 0; x < shape.pattern[y].length; x++) {
@@ -234,7 +260,7 @@ class Board {
                             || x + sx > this._segmentsNum - 1
                             || (
                                 shape.pattern[sy][sx] == 1
-                            && this._matrix[y + sy][x + sx] == FieldStates.OCCUPIED
+                                && this._matrix[y + sy][x + sx] == FieldStates.OCCUPIED
                             )
                         ) {
                             shapeIsFitting = false;
@@ -251,6 +277,12 @@ class Board {
 
     getSegmentEdgeLength(): number {
         return this._segmEdgeLength;
+    }
+    protected _getDistance(point1:{x:number, y:number}, point2:{x:number, y:number}) {
+        let a = point1.x - point2.x;
+        let b = point1.y - point2.y;
+
+        return Math.sqrt(a * a + b * b);
     }
 
     public toString(): string {

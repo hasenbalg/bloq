@@ -49,6 +49,7 @@ class Shape {
 
     protected _color:string;
     protected _isActive:boolean;
+    protected _isOverShop:boolean;
 
     constructor(game: Game, pattern: number[][] = [[1, 1, 1]], position: { x: number, y: number } = { x: 0, y: 0 }) {
         this._game = game;
@@ -60,6 +61,7 @@ class Shape {
         this._halfHeight = this._pattern.length * this._segmEdgeLength * .5;
         this._color = Settings.SHAPECOLORACTIVE;
         this._isActive = true;
+        this._isOverShop = true;
         // console.log(`crated Shape  width:${this.getLongestRow()} height:${this._pattern.length}, edgelength: ${this._segmEdgeLength}`);
         // console.log(`halfHeight:${this._halfHeight}`);
     }
@@ -78,23 +80,25 @@ class Shape {
             this._game.context.stroke();
         }
 
-
-        for (let y = 0; y < this._pattern.length; y++) {
-            for (let x = 0; x < this._pattern[y].length; x++) {
-                if (this.pattern[y][x] > 0) {
-                    this._game.drawRect(
-                        {
-                            x: this._position.x + (x * this._segmEdgeLength) - this._halfWidth,
-                            y: this._position.y + (y * this._segmEdgeLength) - this._halfHeight
-                        },
-                        this._segmEdgeLength,
-                        this.segmEdgeLength,
-                        this._color
-                    );
+        if (this._isOverShop) {
+            for (let y = 0; y < this._pattern.length; y++) {
+                for (let x = 0; x < this._pattern[y].length; x++) {
+                    if (this.pattern[y][x] > 0) {
+                        this._game.drawRect(
+                            {
+                                x: this._position.x + (x * this._segmEdgeLength) - this._halfWidth,
+                                y: this._position.y + (y * this._segmEdgeLength) - this._halfHeight
+                            },
+                            this._segmEdgeLength,
+                            this.segmEdgeLength,
+                            this._color
+                        );
+                    }
+    
                 }
-
             }
         }
+       
 
     }
 
@@ -163,9 +167,9 @@ class Shape {
     }
 
     set position(position: { x: number, y: number }) {
-        // position.x += this._halfWidth;
-        // position.y += this._halfHeight;
-        position.y -= 100;
+        position.x -= this._halfWidth;
+        position.y -= this._halfHeight;
+        // position.y -= 100;
         this._position = position;
     }
 
@@ -183,6 +187,14 @@ class Shape {
 
     set isActive(isActive: boolean) {
         this._isActive = isActive;
+    }
+
+    get isOverShop(): boolean {
+        return this._isOverShop;
+    }
+
+    set isOverShop(isOverShop: boolean) {
+        this._isOverShop = isOverShop;
     }
 
     protected getLongestRow(): number {

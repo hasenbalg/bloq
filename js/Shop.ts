@@ -25,6 +25,8 @@ class Shop{
 
         for(let as of this._availableShapes){
             as.update();
+            //dont render if over board
+            as.isOverShop = this._checkIfOverShop(as);
         }
     }
 
@@ -60,6 +62,10 @@ class Shop{
                 );
         }
         this._game.checkGameOver();
+    }
+
+    protected _checkIfOverShop(shape:Shape):boolean{
+        return (shape.position.y > this._game.width);
     }
 
     touchStart(fingerPos:{x:number, y:number}):void{
