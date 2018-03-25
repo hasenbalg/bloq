@@ -46,38 +46,19 @@ class Player {
     }
 
     save(): void {
-        //https://stackoverflow.com/a/24103596
-        let days = 356;
-        let name = Settings.COOKIENAME;
-        let value = this._highscore;
-
-        let expires = "";
-        if (days) {
-            let date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + value + expires + "; path=/";
+        localStorage.setItem('name', this._name);
+        localStorage.setItem('highscore', this._highscore.toString());
     }
 
-    read():void {console.log('READING');
-        let name = Settings.COOKIENAME;
-        let nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' '){
-                c = c.substring(1, c.length);
-            }
-            if (c.indexOf(nameEQ) == 0){
-                this._highscore = Number(c.substring(nameEQ.length, c.length));
-            }
-        }
-        this._highscore =  0;
+    restore():void {
+        console.log('restoring');
+            this._name = localStorage.getItem('name') || 'XXX';
+            this._highscore = Number(localStorage.getItem('highscore')) || 0;
+        
     }
 
     delete(){
-        let name = Settings.COOKIENAME;
-        document.cookie = name+'=; Max-Age=-99999999;'; 
+        localStorage.removeItem('name');
+        localStorage.removeItem('highscore');
     }
 }

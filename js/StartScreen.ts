@@ -18,7 +18,7 @@ class StartScreen implements IScreen {
 
 
         let player = Player.getInstance();
-        player.read();
+        player.restore();
 
         let self = this;
         this._canvas.addEventListener('touchstart', function (e) {

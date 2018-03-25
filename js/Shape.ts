@@ -66,7 +66,7 @@ class Shape {
 
     render() {
         if (this._game.debug) {
-            var radius = this.halfWidth;
+            let radius = (this._halfWidth > this._halfHeight ? this._halfWidth : this._halfHeight);
             this._game.context.beginPath();
             this._game.context.arc(this._position.x,
                 this._position.y,
@@ -218,7 +218,8 @@ class Shape {
         let dx = fingerPos.x - this._position.x;
         let dy = fingerPos.y - this._position.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < this._halfWidth) {
+        let radius = (this._halfWidth > this._halfHeight ? this._halfWidth : this._halfHeight);
+        if (distance < radius) {
             // console.warn(`\n${this.toString()}`);
             return true;
         }
