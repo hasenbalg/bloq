@@ -133,7 +133,6 @@ class Board {
                         let currentDistance = this._getDistance({ x: x * this._segmEdgeLength + this._margin, y: y * this._segmEdgeLength + this._margin }, shape.position);
                         if (currentDistance < shortestDistance) {
                             shortestDistance = currentDistance;
-                            console.log(shortestDistance);
                             topLeftField = { x: x, y: y };
                         }
                     }

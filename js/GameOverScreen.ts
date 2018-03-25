@@ -7,6 +7,7 @@ class GameOverScreen implements IScreen {
     protected _debug: boolean;
     protected _width: number;
     protected _height: number;
+    protected _player:Player;
 
     protected _text = 'GAME OVER';
 
@@ -16,6 +17,17 @@ class GameOverScreen implements IScreen {
         this._width = this._canvas.width;
         this._height = this._canvas.height;
         this._debug = false;
+        this._player = Player.getInstance();
+
+        if(this._player.score == this._player.highscore){
+            this._text = `Super gemacht,\n weiter so!
+            Du hast eine neue\n Hoechstleistung vollbracht\n
+            ${this._player.highscore}`;
+        }else{
+            this._text += `\nSchade\n
+            ${this._player.score} | ${this._player.highscore}`;
+        }
+        
 
         let self = this;
         this._canvas.addEventListener('touchstart', function (e) {
@@ -23,9 +35,8 @@ class GameOverScreen implements IScreen {
             swapScreen(new Game(cloneCanvas(this)));
             //self = null;
         });
-        let player = Player.getInstance();
-        player.save();
-        player.score = 0
+        this._player.save();
+        this._player.score = 0
     }
 
     update() {
@@ -33,9 +44,14 @@ class GameOverScreen implements IScreen {
     }
 
     render() {
+        let lineheight = 30;
+        let lines = this._text.split('\n');
         this._context.fillStyle = 'blue';
         this._context.textAlign = 'center';
-        this._context.fillText(this._text, this._width / 2, this._height / 2);
+        for (let i = 0; i<lines.length; i++){
+            this._context.fillText(lines[i].trim(), this._width / 2, this._height / 2 + (i*lineheight) );
+            //this._context.fillText(this._text, this._width / 2, this._height / 2);
+        }
     }
 
     resize() {

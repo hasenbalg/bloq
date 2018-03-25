@@ -13,9 +13,7 @@ class  Settings{
 
     public static FLYHOMESPEED = .3;
 
-    public static COOKIENAME = 'Laenderspiel'
-
     public static GAMEOVERCOLOR = 'rgba(0,0,0,0.2)';
 
-    public static SNAPDISTANCE = 30;
+    public static SNAPDISTANCE = 60;
 }

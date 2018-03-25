@@ -36,6 +36,22 @@ class Shape {
         [1, 1, 1]
     ];
 
+    public static FLASH = [
+        [1],
+        [1, 1, 1],
+        [0, 0, 1]
+    ];
+
+    public static Z = [
+        [1, 1],
+        [0, 1, 1]
+    ];
+
+    public static G = [
+        [1, 1],
+        [0, 1]
+    ];
+
     private _game: Game;
     private _pattern: number[][];
     private _segmEdgeLength: number;
@@ -47,9 +63,9 @@ class Shape {
     protected _invalidDrop = false;
     protected _initialPosition: { x: number, y: number };
 
-    protected _color:string;
-    protected _isActive:boolean;
-    protected _isOverShop:boolean;
+    protected _color: string;
+    protected _isActive: boolean;
+    protected _isOverShop: boolean;
 
     constructor(game: Game, pattern: number[][] = [[1, 1, 1]], position: { x: number, y: number } = { x: 0, y: 0 }) {
         this._game = game;
@@ -94,11 +110,11 @@ class Shape {
                             this._color
                         );
                     }
-    
+
                 }
             }
         }
-       
+
 
     }
 
@@ -116,9 +132,9 @@ class Shape {
             }
         }
 
-        if(this._isActive){
+        if (this._isActive) {
             this._color = Settings.SHAPECOLORACTIVE;
-        }else{
+        } else {
             this._color = Settings.SHAPECOLORINACTIVE;
             //dont move
             this._position = this._initialPosition;
