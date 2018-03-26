@@ -1,5 +1,4 @@
 ///<reference path="Game.ts" />
-///<reference path="Flag.ts" />
 
 class StartScreen implements IScreen {
     protected _canvas: HTMLCanvasElement;
@@ -10,7 +9,6 @@ class StartScreen implements IScreen {
 
     protected _text = 'TAP TO START!';
 
-    protected _flags: Flag[];
     protected _numFlagsInRow: number = 8;
 
     constructor(canvas: HTMLCanvasElement) {
@@ -31,51 +29,22 @@ class StartScreen implements IScreen {
         let self = this;
         this._canvas.addEventListener('touchstart', function (e) {
             this.removeEventListener('touchstart', function () { });
-            self._flags[Math.floor(Math.random()* self._flags.length)].setGameColors();
             swapScreen(new Game(cloneCanvas(this)));
             //self = undefined;
         });
 
-        this._flags = new Array();
-        let x = 0;
-        let y = 0;
-        for (let i = 0; i < Flag.files.length; i++) {
-            let flagWidth = this._width / this._numFlagsInRow;
-            let flagHeight = flagWidth / 2;
-
-
-            this._flags.push(
-                new Flag(
-                    this.canvas,
-                    { x: x * flagWidth, y: y * flagHeight },
-                    flagWidth,
-                    flagHeight,
-                    `svg/${Flag.files[i]}`
-                )
-            );
-            x++;
-            if (x >= this._numFlagsInRow) {
-                x = 0;
-                y++;
-                
-            }
-            //console.log(y, x);
-        }
+       
 
     }
 
     update() {
-        for (const flag of this._flags) {
-            flag.update();
-        }
+        
     }
 
     render() {
-
-        for (const flag of this._flags) {
-            flag.render();
-        }
-        this._context.fillStyle = 'blue';
+        this._context.clearRect(0,0,this._canvas.width, this._canvas.height);
+        this._context.font = '30pt Gilbert';
+        this._context.fillStyle = '#222';
         this._context.textAlign = 'center';
         this._context.fillText(this._text, this._width / 2, this._height / 2);
     }

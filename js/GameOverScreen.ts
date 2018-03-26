@@ -21,7 +21,7 @@ class GameOverScreen implements IScreen {
 
         if(this._player.score == this._player.highscore){
             this._text = `Super gemacht,\n weiter so!
-            Du hast eine neue\n Hoechstleistung vollbracht\n
+            Du hast eine neue\n Hoechstleistung\n vollbracht\n
             ${this._player.highscore}`;
         }else{
             this._text += `\nSchade\n
@@ -44,9 +44,11 @@ class GameOverScreen implements IScreen {
     }
 
     render() {
+        this._context.clearRect(0,0,this._canvas.width, this._canvas.height);
+        this._context.font = '30pt Gilbert';
         let lineheight = 30;
         let lines = this._text.split('\n');
-        this._context.fillStyle = 'blue';
+        this._context.fillStyle = '#222';
         this._context.textAlign = 'center';
         for (let i = 0; i<lines.length; i++){
             this._context.fillText(lines[i].trim(), this._width / 2, this._height / 2 + (i*lineheight) );

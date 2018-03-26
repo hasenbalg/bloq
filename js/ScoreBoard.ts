@@ -11,7 +11,7 @@ class ScoreBoard{
     constructor(context: CanvasRenderingContext2D,position:{x:number;y:number}){
         this._context = context;
         this._position = position;
-        this._font = '40pt Abril Fatface';
+        this._font = '30pt Gilbert';
         this._color = Settings.SCOREBOARDCOLOR;
     }
 
@@ -23,6 +23,7 @@ class ScoreBoard{
         this._context.font = this._font;
         this._context.save();
         this._context.fillStyle = this._color;
+        //this._context.fillStyle = '#222';
         this._context.textAlign = 'center';
         this._context.fillText(
             `${Player.getInstance().name}:${Player.getInstance().score}${this._separator}${Player.getInstance().highscore}`,
