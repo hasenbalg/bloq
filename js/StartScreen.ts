@@ -10,7 +10,7 @@ class StartScreen implements IScreen {
 
     protected _text = 'TAP TO START!';
 
-    protected flags: Flag[];
+    protected _flags: Flag[];
     protected _numFlagsInRow: number = 8;
 
     constructor(canvas: HTMLCanvasElement) {
@@ -31,12 +31,12 @@ class StartScreen implements IScreen {
         let self = this;
         this._canvas.addEventListener('touchstart', function (e) {
             this.removeEventListener('touchstart', function () { });
-
+            self._flags[Math.floor(Math.random()* self._flags.length)].setGameColors();
             swapScreen(new Game(cloneCanvas(this)));
             //self = undefined;
         });
 
-        this.flags = new Array();
+        this._flags = new Array();
         let x = 0;
         let y = 0;
         for (let i = 0; i < Flag.files.length; i++) {
@@ -44,7 +44,7 @@ class StartScreen implements IScreen {
             let flagHeight = flagWidth / 2;
 
 
-            this.flags.push(
+            this._flags.push(
                 new Flag(
                     this.canvas,
                     { x: x * flagWidth, y: y * flagHeight },
@@ -65,14 +65,14 @@ class StartScreen implements IScreen {
     }
 
     update() {
-        for (const flag of this.flags) {
+        for (const flag of this._flags) {
             flag.update();
         }
     }
 
     render() {
 
-        for (const flag of this.flags) {
+        for (const flag of this._flags) {
             flag.render();
         }
         this._context.fillStyle = 'blue';

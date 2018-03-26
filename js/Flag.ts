@@ -305,15 +305,35 @@ class Flag {
         let self = this;
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                //console.log(xhr.responseText);
                 let str = xhr.responseText.toLowerCase();
-                var regexp = /fill=["'](#[a-f0-6]{1,6})/gi;
+                var regexp = /fill=["'](#[a-f0-6]{0,6})/gi;
                 var matches = str.match(regexp);
 
                 for (const fill of matches ||[]) {
-                    self._colors.push(fill.replace('fill="', ''));
+                    let color = fill.replace('fill="', '');
+                    color = (color == '#'? '#000': color);
+                    
+                    self._colors.push(color);
                 }
             }
         };
+    }
+
+    public setGameColors():void{
+        let counter = 0
+        Settings.BACKGROUNDCOLOR = this._colors[counter++];
+        Settings.OCCUPIEDFIELDCOLOR = this._colors[counter++];
+        if (this._colors.length >= counter) {
+            Settings.BOARDCOLOR = this._colors[counter-1];
+        }else{
+            Settings.BOARDCOLOR = this._colors[counter];
+        }
+        Settings.SHAPECOLORACTIVE = Settings.BOARDCOLOR;
+           
+       
+        console.log(`the flag is ${this._svg.src}`);
+        for (const c of this._colors) {
+            console.log(c);
+        }
     }
 }
