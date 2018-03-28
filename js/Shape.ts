@@ -66,11 +66,11 @@ class Shape {
     protected _invalidDrop = false;
     protected _initialPosition: { x: number, y: number };
 
-    protected _color: string;
+    protected _color: Color;
     protected _isActive: boolean;
     protected _isOverShop: boolean;
 
-    constructor(game: Game, pattern: number[][] = [[1, 1, 1]], position: { x: number, y: number } = { x: 0, y: 0 }) {
+    constructor(game: Game, pattern: number[][] = [[1, 1, 1]], position: { x: number, y: number } = { x: 0, y: 0 }, color:Color) {
         this._game = game;
         this._pattern = pattern;
         this._segmEdgeLength = this._game.getSegmentEdgeLength();
@@ -78,7 +78,7 @@ class Shape {
         this._initialPosition = this._position;
         this._halfWidth = this.getLongestRow() * this._segmEdgeLength / 2;
         this._halfHeight = this._pattern.length * this._segmEdgeLength * .5;
-        this._color = Settings.SHAPECOLORACTIVE;
+        this._color = color;
         this._isActive = true;
         this._isOverShop = true;
         // console.log(`crated Shape  width:${this.getLongestRow()} height:${this._pattern.length}, edgelength: ${this._segmEdgeLength}`);
@@ -110,7 +110,7 @@ class Shape {
                             },
                             this._segmEdgeLength,
                             this.segmEdgeLength,
-                            this._color
+                            this._color.toString()
                         );
                     }
 
@@ -136,9 +136,9 @@ class Shape {
         }
 
         if (this._isActive) {
-            this._color = Settings.SHAPECOLORACTIVE;
+            this._color.makeOpaque();
         } else {
-            this._color = Settings.SHAPECOLORINACTIVE;
+            this._color.makeTransparent(.5);
             //dont move
             this._position = this._initialPosition;
         }
@@ -216,6 +216,14 @@ class Shape {
         this._isOverShop = isOverShop;
     }
 
+    get color(): Color {
+        return this._color;
+    }
+
+    set color(color: Color) {
+        this._color = color;
+    }
+
     protected getLongestRow(): number {
         let longestRowCounter = 0;
         for (let r of this._pattern) {
@@ -239,7 +247,7 @@ class Shape {
     }
 
     static getClone(orig: Shape, position: { x: number, y: number }): Shape {
-        let copy = new Shape(orig.game, orig.pattern, position);
+        let copy = new Shape(orig.game, orig.pattern, position, orig.color);
         //copy.position = position;
         copy.segmEdgeLength = orig.segmEdgeLength;
         return copy;

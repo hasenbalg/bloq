@@ -68,7 +68,7 @@ class Game implements IScreen{
         });
 
         this._shop = new Shop(this);
-        this._currentShape = new Shape(this, Shape.EMPTY);
+        this._currentShape = new Shape(this, Shape.EMPTY,undefined, new Color(0,0,0));
     }
 
 
@@ -87,12 +87,14 @@ class Game implements IScreen{
     }
 
     drawRect(pos: { x: number, y: number }, width: number, height: number, color: string): void {
+        this._context.save();
         this._context.beginPath();
         this._context.rect(pos.x, pos.y, width - .5, height - .5);
         this._context.fillStyle = color;
         this._context.fill();
-        this._context.lineWidth = 1;
-        this._context.strokeStyle = color;
+        this._context.restore();
+        // this._context.lineWidth = 1;
+        // this._context.strokeStyle = color;
         //this._context.stroke();
     }
 
@@ -122,7 +124,7 @@ class Game implements IScreen{
             this.checkGameOver();
 
         }
-        this._currentShape = new Shape(this, Shape.EMPTY);
+        this._currentShape = new Shape(this, Shape.EMPTY,undefined, new Color(0,0,0));
     }
 
     checkGameOver(){
