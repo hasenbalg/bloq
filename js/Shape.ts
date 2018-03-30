@@ -55,6 +55,33 @@ class Shape {
         [1]
     ];
 
+
+    public static COLORS = [
+        new Color(255,0,19),
+        new Color(255,96,28),
+        new Color(255,254,59),
+        new Color(0,127,28),
+        new Color(0,33,250),
+        new Color(74,15,127),
+        new Color(186,57,251),
+        new Color(121,79,34),
+        //new Color(10,10,10),
+        new Color(70,190,253)
+    ];
+
+    // public static COLORS = [
+    //     new Color(255,0,0),
+    //     new Color(0,255,0),
+    //     new Color(0,0,255),
+    //     // new Color(0,127,28),
+    //     // new Color(0,33,250),
+    //     // new Color(74,15,127),
+    //     // new Color(186,57,251),
+    //     // new Color(121,79,34),
+    //     // // new Color(10,10,10),
+    //     // new Color(70,190,253)
+    // ];
+
     private _game: Game;
     private _pattern: number[][];
     private _segmEdgeLength: number;
@@ -247,7 +274,7 @@ class Shape {
     }
 
     static getClone(orig: Shape, position: { x: number, y: number }): Shape {
-        let copy = new Shape(orig.game, orig.pattern, position, orig.color);
+        let copy = new Shape(orig.game, orig.pattern, position, Shape.COLORS[Math.floor(Math.random()*Shape.COLORS.length)]);
         //copy.position = position;
         copy.segmEdgeLength = orig.segmEdgeLength;
         return copy;

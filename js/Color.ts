@@ -7,7 +7,7 @@ class Color{
     constructor(r:number, g:number, b:number, a:number = 1){
         this._r = r;
         this._b = b;
-        this._g = b;
+        this._g = g;
         this._a = a;
     }
 

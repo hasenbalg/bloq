@@ -89,7 +89,7 @@ class Game implements IScreen{
     drawRect(pos: { x: number, y: number }, width: number, height: number, color: string): void {
         this._context.save();
         this._context.beginPath();
-        this._context.rect(pos.x, pos.y, width - .5, height - .5);
+        this._context.rect(pos.x, pos.y, width - 2, height - 2);
         this._context.fillStyle = color;
         this._context.fill();
         this._context.restore();

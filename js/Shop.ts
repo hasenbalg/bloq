@@ -40,16 +40,16 @@ class Shop{
 
     protected initShapes(){
         this._possibleShapes[0] = new Shape(this._game, Shape.EMPTY, undefined, new Color(0,0,0));
-        this._possibleShapes[1] = new Shape(this._game, Shape.L, undefined, new Color(255,0,19));
-        this._possibleShapes[2] = new Shape(this._game, Shape.TRI, undefined, new Color(255,96,28));
-        this._possibleShapes[3] = new Shape(this._game, Shape.QUAD, undefined, new Color(255,254,59));
-        this._possibleShapes[4] = new Shape(this._game, Shape.BAR3HORIZONTAL, undefined, new Color(0,127,28));
-        this._possibleShapes[5] = new Shape(this._game, Shape.BAR3VERTICAL, undefined, new Color(0,33,250));
-        this._possibleShapes[6] = new Shape(this._game, Shape.J, undefined, new Color(74,15,127));
-        this._possibleShapes[7] = new Shape(this._game, Shape.FLASH, undefined, new Color(186,57,251));
-        this._possibleShapes[8] = new Shape(this._game, Shape.Z, undefined, new Color(121,79,34));
-        this._possibleShapes[9] = new Shape(this._game, Shape.G , undefined, new Color(10,10,10));
-        this._possibleShapes[10] = new Shape(this._game, Shape.DOT , undefined, new Color(70,190,253));
+        this._possibleShapes[1] = new Shape(this._game, Shape.L, undefined, new Color(0,0,0));
+        this._possibleShapes[2] = new Shape(this._game, Shape.TRI, undefined, new Color(0,0,0));
+        this._possibleShapes[3] = new Shape(this._game, Shape.QUAD, undefined, new Color(0,0,0));
+        this._possibleShapes[4] = new Shape(this._game, Shape.BAR3HORIZONTAL, undefined, new Color(0,0,0));
+        this._possibleShapes[5] = new Shape(this._game, Shape.BAR3VERTICAL, undefined, new Color(0,0,0));
+        this._possibleShapes[6] = new Shape(this._game, Shape.J, undefined, new Color(0,0,0));
+        this._possibleShapes[7] = new Shape(this._game, Shape.FLASH, undefined, new Color(0,0,0));
+        this._possibleShapes[8] = new Shape(this._game, Shape.Z, undefined, new Color(0,0,0));
+        this._possibleShapes[9] = new Shape(this._game, Shape.G , undefined, new Color(0,0,0));
+        this._possibleShapes[10] = new Shape(this._game, Shape.DOT , undefined, new Color(0,0,0));
     }
 
     protected fillShop(){
