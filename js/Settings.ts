@@ -1,7 +1,7 @@
 class  Settings{
     public static NUMBLOCKSINAROW = 9;
     public static BACKGROUNDCOLOR = 'rgb(255, 255, 255)';
-    public static RESERVEDFIELDCOLOR = 'rgba(255,255,255,0.5)';
+    // public static RESERVEDFIELDCOLOR = 'rgba(255,255,255,0.5)';
     public static OCCUPIEDFIELDCOLOR = '#fff';
     public static BOARDCOLOR = 'rgba(0,0,0,0.2)';
     public static SCOREBOARDCOLOR = 'rgba(0,0,0,0.2)';

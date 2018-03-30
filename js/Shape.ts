@@ -55,32 +55,28 @@ class Shape {
         [1]
     ];
 
+// // regenbogen
+//     public static COLORS = [
+//         new Color(255,0,19),
+//         new Color(255,96,28),
+//         new Color(255,254,59),
+//         new Color(0,127,28),
+//         new Color(0,33,250),
+//         new Color(74,15,127),
+//         new Color(186,57,251),
+//         new Color(121,79,34),
+//         //new Color(10,10,10),
+//         new Color(70,190,253)
+//     ];
 
+    //Marlenchen
     public static COLORS = [
-        new Color(255,0,19),
-        new Color(255,96,28),
-        new Color(255,254,59),
-        new Color(0,127,28),
-        new Color(0,33,250),
-        new Color(74,15,127),
-        new Color(186,57,251),
-        new Color(121,79,34),
-        //new Color(10,10,10),
-        new Color(70,190,253)
+        new Color(55, 127, 163),
+        new Color(68, 142, 136),
+        new Color(100, 68, 142),
+        new Color(132, 68, 142),
+        new Color(142, 68, 98)
     ];
-
-    // public static COLORS = [
-    //     new Color(255,0,0),
-    //     new Color(0,255,0),
-    //     new Color(0,0,255),
-    //     // new Color(0,127,28),
-    //     // new Color(0,33,250),
-    //     // new Color(74,15,127),
-    //     // new Color(186,57,251),
-    //     // new Color(121,79,34),
-    //     // // new Color(10,10,10),
-    //     // new Color(70,190,253)
-    // ];
 
     private _game: Game;
     private _pattern: number[][];

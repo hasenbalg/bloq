@@ -14,6 +14,7 @@ class Color{
     makeTransparent(a:number){
         if(a <= 1 && a > 0){
             this._a = a;
+            // console.log(this.toString());
         }
     }
 

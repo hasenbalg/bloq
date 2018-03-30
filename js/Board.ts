@@ -132,6 +132,7 @@ class Board {
                     try {
                         if (shape.pattern[y][x] > 0) {
                             if (newMatrix[topLeftField.y + y][topLeftField.x + x].status == FieldStates.FREE) {
+                                newMatrix[topLeftField.y + y][topLeftField.x + x].color = shape.color;
                                 newMatrix[topLeftField.y + y][topLeftField.x + x].status = FieldStates.RESERVED;
                             } else {
                                 return;

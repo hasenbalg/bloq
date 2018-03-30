@@ -26,7 +26,8 @@ class ScoreBoard{
         //this._context.fillStyle = '#222';
         this._context.textAlign = 'center';
         this._context.fillText(
-            `${Player.getInstance().name}:${Player.getInstance().score}${this._separator}${Player.getInstance().highscore}`,
+            // `${Player.getInstance().name}:${Player.getInstance().score}${this._separator}${Player.getInstance().highscore}`,
+            `${Player.getInstance().score}${this._separator}${Player.getInstance().highscore}`,
              this._position.x,
               this._position.y
             );

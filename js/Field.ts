@@ -37,7 +37,7 @@ class Field extends GameObject {
             case FieldStates.FREE:
                 return;
             case FieldStates.RESERVED:
-                this._color.makeTransparent(.2);
+                this._color.makeTransparent(.4);
                 break;
             case FieldStates.OCCUPIED:
                 this._color.makeOpaque();

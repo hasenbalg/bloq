@@ -11,6 +11,7 @@ class StartScreen implements IScreen {
 
     protected _numFlagsInRow: number = 8;
 
+
     constructor(canvas: HTMLCanvasElement) {
         this._canvas = canvas;
         this._context = <CanvasRenderingContext2D>this._canvas.getContext('2d');
@@ -20,6 +21,8 @@ class StartScreen implements IScreen {
         this.resize();
         this._debug = false;
 
+       
+
 
 
 
@@ -28,9 +31,10 @@ class StartScreen implements IScreen {
 
         let self = this;
         this._canvas.addEventListener('touchstart', function (e) {
-            this.removeEventListener('touchstart', function () { });
-            swapScreen(new Game(cloneCanvas(this)));
-            //self = undefined;
+            
+                this.removeEventListener('touchstart', function () { });
+                swapScreen(new Game(cloneCanvas(this)));
+            
         });
 
        
@@ -47,6 +51,9 @@ class StartScreen implements IScreen {
         this._context.fillStyle = '#222';
         this._context.textAlign = 'center';
         this._context.fillText(this._text, this._width / 2, this._height / 2);
+
+
+        // this._context.fillText(Player.getInstance().name, this._width / 2, this._height-(this._height / 3));
     }
 
     resize():void{
@@ -76,7 +83,8 @@ class StartScreen implements IScreen {
     }
 
     set debug(debug: boolean) {
-        throw new TypeError('Implement me');
+        this._debug = debug;
+        // throw new TypeError('Implement me');
     }
 
     get debug(): boolean {
