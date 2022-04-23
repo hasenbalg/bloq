@@ -90,35 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     });
                   },
                   onHorizontalDragEnd: (_) {
-                    if (isFingerOnBoard == true) {
-                      setState(() {
-                        hiScore += board.dropPiece();
-                        shop.update();
-                      });
-                    } else {
-                      setState(() {
-                        if (board.hasActiveShape) {
-                          shop.putBack(board.returnActiveShape());
-                        }
-                      });
-                    }
+                    _onTapEnd();
                   },
                   onVerticalDragEnd: (_) {
-                    if (isFingerOnBoard == true) {
-                      setState(() {
-                        hiScore += board.dropPiece();
-                        shop.update();
-                      });
-                    } else {
-                      setState(() {
-                        if (board.hasActiveShape) {
-                          shop.putBack(board.returnActiveShape());
-                        }
-                      });
-                    }
+                    _onTapEnd();
                   },
                   child: LayoutBuilder(
-                    // Inner yellow container
                     builder: (_, constraints) => Container(
                       width: constraints.widthConstraints().maxWidth,
                       height: constraints.heightConstraints().maxHeight,
@@ -149,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           board.activeShape = s;
                         } else {
                           print('no space');
-                          shop.putBack(s);
+                          shop.putBack(s?..willFitInBoard = false);
                         }
                       });
                     }
@@ -169,5 +146,32 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void _onTapEnd() {
+    if (isFingerOnBoard == true) {
+      setState(() {
+        hiScore += board.dropPiece();
+        shop.update();
+      });
+    } else {
+      setState(() {
+        if (board.hasActiveShape) {
+          shop.putBack(board.returnActiveShape());
+        }
+      });
+    }
+
+    // evaluate shop
+    setState(() {
+      for (var i = 0; i < shop.shapes.length; i++) {
+        shop.shapes[i]?.willFitInBoard =
+            board.willShapeFindAnyPlace(shop.shapes[i]);
+      }
+    });
+
+    bool gameEnd =
+        !shop.shapes.any((element) => element?.willFitInBoard ?? false);
+    print(gameEnd);
   }
 }

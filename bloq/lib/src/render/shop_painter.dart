@@ -20,7 +20,9 @@ class ShopPainter extends CustomPainter {
               final paint = Paint()
                 ..style = PaintingStyle.fill
                 ..strokeWidth = 1.0
-                ..color = Colors.green;
+                ..color = s.willFitInBoard == false
+                    ? const Color.fromARGB(255, 211, 211, 211)
+                    : Colors.green;
               canvas.drawRRect(
                   RRect.fromRectAndRadius(
                       Rect.fromLTWH(x0, y0, fieldDimension, fieldDimension),

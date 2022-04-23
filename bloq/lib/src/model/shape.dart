@@ -2,6 +2,7 @@ import 'dart:math';
 
 class Shape {
   late final List<List<int>> fields;
+  bool? willFitInBoard;
 
   Shape.l() {
     fields = [
